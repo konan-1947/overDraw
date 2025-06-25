@@ -25,11 +25,10 @@ export function activateTextMode(initialX, initialY) {
 
         textInputElement = document.createElement('textarea');
         textInputElement.id = TEXT_INPUT_ID;
-        textInputElement.style.position = 'absolute';
+        textInputElement.style.position = 'fixed';
 
-        const canvasRect = canvas.getBoundingClientRect();
-        textInputElement.style.left = `${canvasRect.left + initialX}px`;
-        textInputElement.style.top = `${canvasRect.top + initialY}px`;
+        textInputElement.style.left = `${initialX}px`;
+        textInputElement.style.top = `${initialY}px`;
 
         const state = getState();
         textInputElement.style.fontSize = `${state.currentTextSize}px`;
@@ -88,9 +87,8 @@ function placeTextOnCanvas() {
         if (!ctx || !canvas) throw new Error("Canvas or context not found in placeTextOnCanvas");
 
         const text = textInputElement.value;
-        const canvasRect = canvas.getBoundingClientRect();
-        const x = parseFloat(textInputElement.style.left) - canvasRect.left;
-        const y = parseFloat(textInputElement.style.top) - canvasRect.top + state.currentTextSize * 0.8;
+        const x = parseFloat(textInputElement.style.left);
+        const y = parseFloat(textInputElement.style.top);
 
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = state.currentColor;
